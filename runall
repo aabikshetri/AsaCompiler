@@ -1,0 +1,2 @@
+java -jar Asa/lib/antlr-4.13.1-complete.jar Asa/src/main/antlr4/Asa.g4 -o Asa/src/main/java -no-listener -visitor -package antlr
+mill Asa.run testfiles/test3.asa

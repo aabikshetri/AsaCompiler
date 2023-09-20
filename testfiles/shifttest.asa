@@ -1,0 +1,15 @@
+program test;
+const 
+  c1=0xf; c2=011; c3=3; c4 = 3.14;
+var 
+  a, b: integer;
+  c, d: real;
+  i : integer;
+begin
+
+
+  a := 5;
+  b := a << 2;
+  printf("%d %d\n", a, b);
+
+end.

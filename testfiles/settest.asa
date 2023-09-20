@@ -1,0 +1,25 @@
+program settest;
+var 
+  a, b, c, d, e : set;
+  x : integer;
+begin
+  a := [1, 3, 5, 30, 31, 32];
+  b := [2, 4, 5];
+  c := a + b;
+  d := a * b;
+  e := c - [2];
+  printf("%s %s %s %s %s\n", a, b, c, d, e);
+  x := 4;
+  
+  if x in a then
+     printf("%d is in the set %s\n", x, a);
+  else
+     printf("%d is NOT in the set %s\n", x, a);
+
+
+  if x in b then
+     printf("%d is in the set %s\n", x, b);
+  else
+     printf("%d is NOT in the set %s\n", x, b);
+
+end.

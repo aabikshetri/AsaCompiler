@@ -1,0 +1,41 @@
+program test;
+const 
+  c1=0xf; c2=011; c3=3;
+var 
+  a, b: integer;
+  c, d: integer;
+  i : integer;
+begin
+
+  while a < 15 do 
+    a := a + 1;
+
+  if a >= 15 then
+    d := 5;
+  else
+    d := 6;
+
+  repeat
+    a := a + 1;
+  until a >= 20;
+
+  for i := 1 to 10 do begin
+     b := b + 1;
+     printf("%d %d %f\n", b, b div 2, b/2.0);
+  end
+
+  case i of 
+    10, 20 : begin
+               printf("A1\n");
+               printf("A2\n");
+             end
+    5 : begin
+          printf("C1\n");
+          printf("C2\n");
+        end
+          
+    30 : printf("B\n");
+  end
+
+
+end.

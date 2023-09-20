@@ -1,0 +1,667 @@
+
+(
+   program program settest ; 
+   (
+      block var 
+      (
+         variable_declaration a , b , c , d , e : 
+         (
+            atype set
+         )
+      ) ; 
+      (
+         variable_declaration x : 
+         (
+            atype integer
+         )
+      ) ; 
+      (
+         compound_statement begin 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier a
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 literal 
+                                 (
+                                    setLiteral [ 
+                                    (
+                                       integerLiteral 1
+                                    ) , 
+                                    (
+                                       integerLiteral 3
+                                    ) , 
+                                    (
+                                       integerLiteral 5
+                                    ) , 
+                                    (
+                                       integerLiteral 30
+                                    ) , 
+                                    (
+                                       integerLiteral 31
+                                    ) , 
+                                    (
+                                       integerLiteral 32
+                                    ) ]
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier b
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 literal 
+                                 (
+                                    setLiteral [ 
+                                    (
+                                       integerLiteral 2
+                                    ) , 
+                                    (
+                                       integerLiteral 4
+                                    ) , 
+                                    (
+                                       integerLiteral 5
+                                    ) ]
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier c
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier a
+                                 )
+                              )
+                           )
+                        ) + 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier b
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier d
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier a
+                                 )
+                              )
+                           ) * 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier b
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier e
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier c
+                                 )
+                              )
+                           )
+                        ) - 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 literal 
+                                 (
+                                    setLiteral [ 
+                                    (
+                                       integerLiteral 2
+                                    ) ]
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               printf_statement printf 
+               (
+                   
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              literal "%s %s %s %s %s\n"
+                           )
+                        )
+                     )
+                  ) , 
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              rhsvalue 
+                              (
+                                 identifier a
+                              )
+                           )
+                        )
+                     )
+                  ) , 
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              rhsvalue 
+                              (
+                                 identifier b
+                              )
+                           )
+                        )
+                     )
+                  ) , 
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              rhsvalue 
+                              (
+                                 identifier c
+                              )
+                           )
+                        )
+                     )
+                  ) , 
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              rhsvalue 
+                              (
+                                 identifier d
+                              )
+                           )
+                        )
+                     )
+                  ) , 
+                  (
+                     simpleexpression 
+                     (
+                        term 
+                        (
+                           factor 
+                           (
+                              rhsvalue 
+                              (
+                                 identifier e
+                              )
+                           )
+                        )
+                     )
+                  ) 
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               assignment_statement 
+               (
+                  lhsreference 
+                  (
+                     identifier x
+                  )
+               ) := 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 literal 
+                                 (
+                                    integerLiteral 4
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) ;
+            )
+         ) 
+         (
+            statement 
+            (
+               if_statement if 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier x
+                                 )
+                              )
+                           )
+                        )
+                     ) in 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier a
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) then 
+               (
+                  statement 
+                  (
+                     printf_statement printf 
+                     (
+                         
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    literal "%d is in the set %s\n"
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier x
+                                    )
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier a
+                                    )
+                                 )
+                              )
+                           )
+                        ) 
+                     ) ;
+                  )
+               ) else 
+               (
+                  statement 
+                  (
+                     printf_statement printf 
+                     (
+                         
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    literal "%d is NOT in the set %s\n"
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier x
+                                    )
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier a
+                                    )
+                                 )
+                              )
+                           )
+                        ) 
+                     ) ;
+                  )
+               )
+            )
+         ) 
+         (
+            statement 
+            (
+               if_statement if 
+               (
+                  logicalexpression 
+                  (
+                     relationalexpression 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier x
+                                 )
+                              )
+                           )
+                        )
+                     ) in 
+                     (
+                        simpleexpression 
+                        (
+                           term 
+                           (
+                              factor 
+                              (
+                                 rhsvalue 
+                                 (
+                                    identifier b
+                                 )
+                              )
+                           )
+                        )
+                     )
+                  )
+               ) then 
+               (
+                  statement 
+                  (
+                     printf_statement printf 
+                     (
+                         
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    literal "%d is in the set %s\n"
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier x
+                                    )
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier b
+                                    )
+                                 )
+                              )
+                           )
+                        ) 
+                     ) ;
+                  )
+               ) else 
+               (
+                  statement 
+                  (
+                     printf_statement printf 
+                     (
+                         
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    literal "%d is NOT in the set %s\n"
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier x
+                                    )
+                                 )
+                              )
+                           )
+                        ) , 
+                        (
+                           simpleexpression 
+                           (
+                              term 
+                              (
+                                 factor 
+                                 (
+                                    rhsvalue 
+                                    (
+                                       identifier b
+                                    )
+                                 )
+                              )
+                           )
+                        ) 
+                     ) ;
+                  )
+               )
+            )
+         ) end
+      )
+   ) .
+)

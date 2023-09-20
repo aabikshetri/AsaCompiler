@@ -1,0 +1,29 @@
+program types;
+const 
+  c1=0xf; c2=011; c3=3; c4 = 3.14;
+type
+  courses = set of 30..40;
+  letterset = set of 'A' .. 'Z';
+  colors = (red, orange, yellow, green, blue, indigo, violet);
+  passing = 'A'..'D';
+var 
+  i0, i1: integer;
+  r2, r4: real;
+  i6 : integer;
+  s7 : string;
+  nums : array[1..10] of integer;
+  { matrix : array[1..5] of array[1..5] of set of 'A'.. 'F'; }
+  myset: set of 10..20;
+  lehighCourses: courses;
+  grades: letterset;
+  debug : boolean;
+  rgb : colors;
+  mygrade: passing;
+  ch : char;
+begin
+  rgb := red;
+ { grades := ['A', 'B', 'C']; }
+  mygrade := 'A';
+  ch := 'Z';
+  printf("%d %c \n", c1, ch);
+end.

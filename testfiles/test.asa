@@ -1,0 +1,48 @@
+program test;
+const 
+  c1=0xf; c2=011; c3=3; c4 = 3.14;
+var 
+  i0, i1: integer;
+  r2, r4: real;
+  i6 : integer;
+  s7 : string;
+  nums : array[1..10] of integer;
+begin
+  i0 := 5;
+  case i0 of 
+    10, 20 : begin
+               printf("A1\n");
+               printf("A2\n");
+             end
+    5 : begin
+          printf("C1\n");
+          printf("C2\n");
+        end
+          
+    30 : printf("B\n");
+  end
+
+  i0 := 0xa;
+  printf("i0= %d\n", i0);
+  i1 := 11;
+  r2 := 12;
+
+  while i1 < 15 do 
+    i1 := i1 + 1;
+
+  if i1 >= 15 then
+    r2 := 5;
+  else
+    r2 := 6;
+
+  repeat
+    i1 := i1 + 1;
+  until i1 >= 20;
+
+  for i6 := 1 to 10 do begin
+    r2 := r2 + 1;
+    i1 := r2;
+    printf("%d %d %3.1f\n", i1, i1 div 2, i1/2.0);
+  end
+
+end.

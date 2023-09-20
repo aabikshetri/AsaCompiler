@@ -1,0 +1,9 @@
+program stringtest;
+const 
+  hello = "Hello";
+var 
+  goodbye : string;
+begin
+  goodbye := "Goodbye";
+  printf("%s %s\n", hello, goodbye);
+end.

@@ -1,0 +1,87 @@
+{ Calendar.asa  - Example calendar program for Asa programming language }
+
+program calendar;
+  var month, year, day, dday, lastday, firstday: integer;
+      tmp:integer;
+      nrows, row, colday: integer;
+  begin
+    month := 10;
+    year := 2018;
+
+    if month = 1 or month = 2 then
+    begin
+      month := month + 12;
+      year := year - 1;
+    end
+    
+    day := 1;
+
+    firstday := ((day + (month + 1) * 26 div 10 + year + year div 4 + 6 * (year div 100) + year div 400)) mod 7; 
+
+    if firstday = 0 then
+      firstday := 7;
+
+    if month > 12 then
+    begin
+      month := month - 12;
+      year := year + 1;
+    end
+
+    lastday := 0;
+    if (month = 4) or (month = 6) or (month = 9) or (month = 11) then
+      lastday := 30
+    else 
+    begin
+      if month <> 2 then
+        lastday := 31;
+      else 
+      begin
+        if (year mod 4 = 0) and ((year mod 100 <> 0) or (year mod 400 = 0)) then
+          lastday := 29;
+        else 
+          lastday := 28;
+      end
+    end
+
+    case month of
+      1 : printf("       January");
+      2 : printf("      February");
+      3 : printf("        March");
+      4 : printf("        April");
+      5 : printf("         May");
+      6 : printf("        June");
+      7 : printf("        July");
+      8 : printf("       August");
+      9 : printf("      September");
+      10 : printf("       October");
+      11 : printf("      November");
+      12 : printf("      December");
+    end
+
+    printf(" %d\n", year);
+    printf(" Su Mo Tu We Th Fr Sa\n");
+
+    dday := 2 - firstday;
+    nrows := (firstday + lastday) div 7 + 1;
+    row := 1;
+
+    while (row <= nrows) do
+    begin
+      colday := 1; 
+      while colday <= 7 do
+      begin
+        if (dday < 1) or (dday > lastday) then 
+          printf("   ");
+        else
+          printf("%3d", dday);
+        colday := colday + 1;
+        dday := dday + 1;
+      end
+      printf("\n");
+      row := row + 1;
+    end
+
+    printf("\n");
+end.
+
+

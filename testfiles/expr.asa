@@ -1,0 +1,20 @@
+repeat
+
+  while result < 5 do
+  begin
+    result := (x + y) div z + 3;
+    x := x + 1;
+  end
+
+  y := y * 2;
+  x := x + 1;
+
+  if x > 2 then
+    y := 1;
+  else
+    z := 3;
+
+  for a := 1 to 10 do i := i + 1;
+
+  writeln(x:5:2, y);
+until y > 3;
