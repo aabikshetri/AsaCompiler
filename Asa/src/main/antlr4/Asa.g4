@@ -142,11 +142,9 @@ grammar Asa ;
     : CASE simpleexpression OF case_limb+ END
     ;
 
-  /* 
-    Add a production here to complete the case statement. The labels on a case are integer literals; if there
-    is more than one then they are separated by commas. A colon separates the labels from the statement that is executed
-    when one of the case labels matches.
-  */
+  /** 
+    Add a production here for case_limb to complete the case statement. The labels on a case are integer literals; if there is more than one then they are separated by commas. A colon separates the labels from the statement that is executed when one of the case labels matches.
+  **/
 
   /*************************
     Expressions
@@ -155,8 +153,7 @@ grammar Asa ;
   logicalexpression
     : 
     /* Replace this comment with the definition of a logicalexpression, which consists of 
-       either a single relationalexpression 
-       or two relationalexpressions separated by one of and/or
+       either a single relationalexpression or two relationalexpressions separated by one of and/or
     */
     ;
 
@@ -416,7 +413,8 @@ grammar Asa ;
 
   HEXADECIMALINTEGERLITERAL
     : 
-    /* Replace this comment with the definition for a hex literal which
+ 
+    /* Replace this comment with the definition for a hexadecimal literal which
        starts with a 0,
        followed by either an upper or lower case x
        followed by 1 or more of (either 0-9 or upper case a-f or lower case a-f) */
