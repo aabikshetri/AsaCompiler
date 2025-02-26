@@ -141,6 +141,10 @@ grammar Asa ;
   case_statement
     : CASE simpleexpression OF case_limb+ END
     ;
+  
+  case_limb
+    : integerLiteral( COMMA integerLiteral )* COLON statement
+    ;
 
   /** 
     Add a production here for case_limb to complete the case statement. The labels on a case are integer literals; if there is more than one then they are separated by commas. A colon separates the labels from the statement that is executed when one of the case labels matches.
@@ -151,7 +155,7 @@ grammar Asa ;
   *************************/
 
   logicalexpression
-    : 
+    : left=relationalexpression (op=(AND | OR) right=relationalexpression)?
     /* Replace this comment with the definition of a logicalexpression, which consists of 
        either a single relationalexpression or two relationalexpressions separated by one of and/or
     */
@@ -412,7 +416,7 @@ grammar Asa ;
     ;
 
   HEXADECIMALINTEGERLITERAL
-    : 
+    : '0' [xX] [0-9a-fA-F]+
  
     /* Replace this comment with the definition for a hexadecimal literal which
        starts with a 0,
@@ -421,7 +425,7 @@ grammar Asa ;
     ;
 
   OCTALINTEGERLITERAL
-    : 
+    : '0' [0-7]+
     /* Replace this comment with the definition for an octal literal which
        starts with a 0,
        followed by 0 or more digits from 0-7 */
@@ -432,7 +436,7 @@ grammar Asa ;
     ;
 
   IDENT
-    : 
+    : [a-zA-Z] [a-zA-Z0-9_]*
     /* Replace this comment with the definition for an IDENT (identifier) which
        starts with an upper or lower case letter
        followed by 0 or more letters (upper or lower) digits or underscores */    
