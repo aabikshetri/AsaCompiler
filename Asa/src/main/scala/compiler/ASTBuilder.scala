@@ -291,19 +291,15 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     /* Replace this comment with code to visit a relationalexpression. Refer to the grammar and to
        visitLogicalexpression for inspiration.
     */
-    if(ctx.simpleexpression().isEmpty()) {
-      throw new RuntimeException("Relational expression must have at least one simple expression.")
+    var leftExpr = visit(ctx.simpleexpression(0)) // Visit the first simple expression
+  
+    if (ctx.op != null) { // If there's a relational operator
+      val operator = vocabulary.getSymbolicName(ctx.op.getType) // Get operator name
+      val rightExpr = visit(ctx.simpleexpression(1)) // Visit the second simple expression
+      return Binop(operator, leftExpr, rightExpr) // Construct and return a binary operation
     }
-
-    val left = visit(ctx.simpleexpression(0)).asInstanceOf[ASTNode]
-
-    if (ctx.simpleexpression().size() > 1) {
-        val right = visit(ctx.simpleexpression(1)).asInstanceOf[ASTNode]
-        val op = ctx.getChild(1).getText // Extract operator (=, <, >, <=, >=, <>)
-        Binop(op, left, right) // Use Binop instead of RelationalExpression
-    } else {
-        left
-    }
+    
+    leftExpr // Return the single simple expression if no operator is present
   }
 
   override def visitSimpleexpression(ctx:AsaParser.SimpleexpressionContext) = {
