@@ -35,7 +35,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     Program(programName, block)
   }
 
-	override def visitBlock(ctx:AsaParser.BlockContext) = {
+  override def visitBlock(ctx:AsaParser.BlockContext) = {
     val constDefs = if (ctx.constant_definition() == null) List() else ctx.constant_definition().asScala.toList.map(visit(_))
     val typeDefs  = if (ctx.type_definition() == null) List() else ctx.type_definition().asScala.toList.map(visit(_))
     val varDecl   = if (ctx.variable_declaration() == null) List() else ctx.variable_declaration().asScala.toList.map(visit(_))
@@ -43,19 +43,19 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     Block(constDefs, typeDefs, varDecl, compoundStatement)
   }
 
-	override def visitConstant_definition(ctx:AsaParser.Constant_definitionContext) = {
+  override def visitConstant_definition(ctx:AsaParser.Constant_definitionContext) = {
     val name = ctx.IDENT().getText
     val value = visit(ctx.literal())
     ConstantDefinition(name, value)
   }
 
-	override def visitType_definition(ctx:AsaParser.Type_definitionContext) = {
+  override def visitType_definition(ctx:AsaParser.Type_definitionContext) = {
     val name = ctx.IDENT().getText
     val typ = visit(ctx.atype())
     TypeDefinition(name, typ)
   }
 
-	override def visitVariable_declaration(ctx:AsaParser.Variable_declarationContext) = {
+  override def visitVariable_declaration(ctx:AsaParser.Variable_declarationContext) = {
     val identList = ctx.IDENT().asScala.toList.map(_.getText)
     val typ = visit(ctx.atype())
     VariableDeclaration(identList, typ)
@@ -97,8 +97,12 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
 
   override def visitOctalIntegerLiteralAlt(ctx:AsaParser.OctalIntegerLiteralAltContext) = {
     /*
+
       Replace this comment with the code to visit OctalIntegerLiteralAlt.
     */
+    val octint = ctx.OCTALINTEGERLITERAL()
+    val intValue = Integer.decode(octint.getText)
+    Literal(intValue, INTEGER_TYPE, loc(octint))
   }
 
   override def visitBooleanLiteralAlt(ctx:AsaParser.BooleanLiteralAltContext) = {
@@ -120,7 +124,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
    * Types
    */
   
-	override def visitAtype(ctx:AsaParser.AtypeContext) = {
+  override def visitAtype(ctx:AsaParser.AtypeContext) = {
     visitChildren(ctx)
   }
 
@@ -129,24 +133,24 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     NamedType(typeName)
   }
 
-	override def visitRangeType(ctx:AsaParser.RangeTypeContext) = {
+  override def visitRangeType(ctx:AsaParser.RangeTypeContext) = {
     val startIndexNode = visit(ctx.discreteLiteral(0))
     val endIndexNode   = visit(ctx.discreteLiteral(1))
     RangeType(startIndexNode, endIndexNode)
   }
 
-	override def visitArrayType(ctx:AsaParser.ArrayTypeContext) = {
+  override def visitArrayType(ctx:AsaParser.ArrayTypeContext) = {
     val rangeType = visit(ctx.rangeType())
     val elementType = visit(ctx.atype())
     ArrayType(rangeType, elementType)
   }
 
-	override def visitSetType(ctx:AsaParser.SetTypeContext) = {
+  override def visitSetType(ctx:AsaParser.SetTypeContext) = {
     val rangeType = visit(ctx.rangeType)
     SetType(rangeType)
   }
 
-	override def visitEnumType(ctx:AsaParser.EnumTypeContext) = {
+  override def visitEnumType(ctx:AsaParser.EnumTypeContext) = {
     val identList = ctx.IDENT().asScala.toList.map(_.getText)
     EnumType(identList)
   }
@@ -155,16 +159,19 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
       Statements
   */
 
-	override def visitStatement(ctx:AsaParser.StatementContext) = {
+  override def visitStatement(ctx:AsaParser.StatementContext) = {
     visitChildren(ctx)
   }
 
-	override def visitAssignment_statement(ctx:AsaParser.Assignment_statementContext) = {
+  override def visitAssignment_statement(ctx:AsaParser.Assignment_statementContext) = {
     /*
       Replace this comment with the code to visit an assignment_statement. This is an easy one - just visit the
       two non-terminals in the assignment_statement and then plug the resulting trees into the AssignmentStatement 
       node and return it.
     */
+    val lhs = visit(ctx.lhsreference()).asInstanceOf[ASTNode] // Left-hand side
+    val rhs = visit(ctx.logicalexpression()).asInstanceOf[ASTNode] // Right-hand side
+    AssignmentStatement(lhs, rhs) // Create an ASTNode and return it
   }
 
   override def visitLhsreference(ctx:AsaParser.LhsreferenceContext) = {
@@ -193,24 +200,24 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     }
   }
 
-	override def visitCompound_statement(ctx:AsaParser.Compound_statementContext) = {
+  override def visitCompound_statement(ctx:AsaParser.Compound_statementContext) = {
     val statements = ctx.statement().asScala.toList.map(visit(_))
     CompoundStatement(statements)
   }
 
-	override def visitWhile_statement(ctx:AsaParser.While_statementContext) = {
+  override def visitWhile_statement(ctx:AsaParser.While_statementContext) = {
     val cond = visit(ctx.logicalexpression())
     val body = visit(ctx.statement())
     WhileStatement(cond, body)
   }
 
-	override def visitRepeat_statement(ctx:AsaParser.Repeat_statementContext) = {
+  override def visitRepeat_statement(ctx:AsaParser.Repeat_statementContext) = {
     val cond = visit(ctx.logicalexpression())
     val statements = ctx.statement().asScala.toList.map(visit(_))
     RepeatStatement(cond, statements)
   }
 
-	override def visitIf_statement(ctx:AsaParser.If_statementContext) = {
+  override def visitIf_statement(ctx:AsaParser.If_statementContext) = {
     /* Replace this comment with the code to visit an if_statement. An if_statement always has a 
       logicalexpression for the condition and a statement for the "then" clause. Since the "else" 
       clause is optional, there will only be a second statement if the else is present. (Look at visitFor_statement 
@@ -218,9 +225,17 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
       then return the Option None for the third value in IfStatement node. If there is an else clause, then 
       once you have visited the statement, wrap the resulting ast in Some().
     */
+    val condition = visit(ctx.logicalexpression()).asInstanceOf[ASTNode] // Condition
+    val thenStatement = visit(ctx.statement(0)).asInstanceOf[ASTNode] // Then Statement
+    val elseStatement = if (ctx.statement().size() > 1) {
+      Some(visit(ctx.statement(1)).asInstanceOf[ASTNode]) // Optional Else branch
+    } else{
+      None
+    }
+    IfStatement(condition, thenStatement, elseStatement) // Return an IfStatement AST node
   }
 
-	override def visitFor_statement(ctx:AsaParser.For_statementContext) = {
+  override def visitFor_statement(ctx:AsaParser.For_statementContext) = {
     val indexvar = ctx.IDENT().getText
     val startexp = visit(ctx.simpleexpression(0))
     val endexp = visit(ctx.simpleexpression(1))
@@ -229,8 +244,11 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     ForStatement(Identifier(indexvar, Location(0,0)), startexp, endexp, ascending, body)
   }
 
-	override def visitPrintf_statement(ctx:AsaParser.Printf_statementContext) = {
+  override def visitPrintf_statement(ctx:AsaParser.Printf_statementContext) = {
     val tmp = ctx.simpleexpression().asScala.toList.map(visit(_))
+    val formatString = tmp.head
+    val args = tmp.tail
+    PrintfStatement(formatString, args)
     /*
       Replace this comment with the rest of the visitPrintf_statement. The given line will return a Scala list
       of ASTNodes, each one representing a simpleexpression. The first simpleexpression is the format string 
@@ -239,7 +257,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     */
   }
 
-	override def visitCase_statement(ctx:AsaParser.Case_statementContext) = {
+  override def visitCase_statement(ctx:AsaParser.Case_statementContext) = {
     if (DEBUG) println(s"begin visitCase_statement")
     val caseExpression = visit(ctx.simpleexpression())
     if (DEBUG) println(s"in visitCase_statement: caseExpression= $caseExpression")
@@ -247,7 +265,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     CaseStatement(caseExpression, limbs)
   }
 
-	override def visitCase_limb(ctx:AsaParser.Case_limbContext) = {
+  override def visitCase_limb(ctx:AsaParser.Case_limbContext) = {
     val caseLabels = ctx.integerLiteral().asScala.toList.map(visit(_)).map((limb) => {
       limb match {
         case Literal(n, typ, loc) => n.asInstanceOf[Int]
@@ -258,24 +276,37 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     CaseLimb(caseLabels, statement)
   }
 
-	override def visitLogicalexpression(ctx:AsaParser.LogicalexpressionContext) = {
+  override def visitLogicalexpression(ctx:AsaParser.LogicalexpressionContext) = {
     var re1 = visit(ctx.relationalexpression(0))
     if (ctx.relationalexpression.size() > 1) { 
       val re2 = visit(ctx.relationalexpression(1))
       val op = ctx.op.getType
       val re = Binop(vocabulary.getSymbolicName(op), re1, re2)
       re
-    }
-    re1
+    } else
+      re1
   }
 
-	override def visitRelationalexpression(ctx:AsaParser.RelationalexpressionContext) = {
+  override def visitRelationalexpression(ctx:AsaParser.RelationalexpressionContext) = {
     /* Replace this comment with code to visit a relationalexpression. Refer to the grammar and to
        visitLogicalexpression for inspiration.
     */
+    if(ctx.simpleexpression().isEmpty()) {
+      throw new RuntimeException("Relational expression must have at least one simple expression.")
+    }
+
+    val left = visit(ctx.simpleexpression(0)).asInstanceOf[ASTNode]
+
+    if (ctx.simpleexpression().size() > 1) {
+        val right = visit(ctx.simpleexpression(1)).asInstanceOf[ASTNode]
+        val op = ctx.getChild(1).getText // Extract operator (=, <, >, <=, >=, <>)
+        Binop(op, left, right) // Use Binop instead of RelationalExpression
+    } else {
+        left
+    }
   }
 
-	override def visitSimpleexpression(ctx:AsaParser.SimpleexpressionContext) = {
+  override def visitSimpleexpression(ctx:AsaParser.SimpleexpressionContext) = {
     var t1 = visit(ctx.term(0))
     if (DEBUG) println(s"in visitSimpleexpression: t1= $t1")
     for (i <- 1 until ctx.term.size()) {
@@ -286,7 +317,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     t1
   }
 
-	override def visitTerm(ctx:AsaParser.TermContext) = {
+  override def visitTerm(ctx:AsaParser.TermContext) = {
     var f1 = visit(ctx.factor(0))
     if (DEBUG) println(s"in visitTerm: f1= $f1")
     for (i <- 1 until ctx.factor.size()) {
@@ -316,7 +347,7 @@ class ASTBuilder extends AsaBaseVisitor[ASTNode] {
     }
   }
 
-	override def visitNegation(ctx:AsaParser.NegationContext) = {
+  override def visitNegation(ctx:AsaParser.NegationContext) = {
     val value = visit(ctx.factor())
     Unop(vocabulary.getSymbolicName(AsaParser.NOT), value)
   }

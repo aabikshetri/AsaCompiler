@@ -156,6 +156,7 @@ grammar Asa ;
 
   logicalexpression
     : left=relationalexpression (op=(AND | OR) right=relationalexpression)?
+    
     /* Replace this comment with the definition of a logicalexpression, which consists of 
        either a single relationalexpression or two relationalexpressions separated by one of and/or
     */
